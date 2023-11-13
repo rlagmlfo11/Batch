@@ -25,17 +25,34 @@ public class People {
 	@Column(name = "POSITION")
 	private String position;
 
+	@Column(name = "SETUP1")
+	private String setup1;
+
+	@Column(name = "SETUP2")
+	private String setup2;
+
+	@Column(name = "SETUP3")
+	private String setup3;
+
+	@Column(name = "SETUP4")
+	private String setup4;
+
 	public People() {
 
 	}
 
-	public People(Long personalNumber, String name, String gender, String job, String position) {
+	public People(Long personalNumber, String name, String gender, String job, String position,
+			String setup1, String setup2, String setup3, String setup4) {
 		super();
 		this.personalNumber = personalNumber;
 		this.name = name;
 		this.gender = gender;
 		this.job = job;
 		this.position = position;
+		this.setup1 = setup1;
+		this.setup2 = setup2;
+		this.setup3 = setup3;
+		this.setup4 = setup4;
 	}
 
 	/**
@@ -106,6 +123,62 @@ public class People {
 	 */
 	public void setPosition(String position) {
 		this.position = position;
+	}
+
+	/**
+	 * @return the setup1
+	 */
+	public String getSetup1() {
+		return setup1;
+	}
+
+	/**
+	 * @param setup1 the setup1 to set
+	 */
+	public void setSetup1(String setup1) {
+		this.setup1 = setup1;
+	}
+
+	/**
+	 * @return the setup2
+	 */
+	public String getSetup2() {
+		return setup2;
+	}
+
+	/**
+	 * @param setup2 the setup2 to set
+	 */
+	public void setSetup2(String setup2) {
+		this.setup2 = setup2;
+	}
+
+	/**
+	 * @return the setup3
+	 */
+	public String getSetup3() {
+		return setup3;
+	}
+
+	/**
+	 * @param setup3 the setup3 to set
+	 */
+	public void setSetup3(String setup3) {
+		this.setup3 = setup3;
+	}
+
+	/**
+	 * @return the setup4
+	 */
+	public String getSetup4() {
+		return setup4;
+	}
+
+	/**
+	 * @param setup4 the setup4 to set
+	 */
+	public void setSetup4(String setup4) {
+		this.setup4 = setup4;
 	}
 
 }

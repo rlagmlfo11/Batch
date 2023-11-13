@@ -19,15 +19,28 @@ public class Update {
 	@Column(name = "POSITION")
 	private String position;
 
+	@Column(name = "GENDER")
+	private String gender;
+
+	@Column(name = "KUBUN")
+	private String kubun;
+
+	@Column(name = "SETUP")
+	private String setup;
+
 	public Update() {
 
 	}
 
-	public Update(Long personalNumber, String name, String position) {
+	public Update(Long personalNumber, String name, String position, String gender, String kubun,
+			String setup) {
 		super();
 		this.personalNumber = personalNumber;
 		this.name = name;
 		this.position = position;
+		this.gender = gender;
+		this.kubun = kubun;
+		this.setup = setup;
 	}
 
 	/**
@@ -70,6 +83,48 @@ public class Update {
 	 */
 	public void setPosition(String position) {
 		this.position = position;
+	}
+
+	/**
+	 * @return the gender
+	 */
+	public String getGender() {
+		return gender;
+	}
+
+	/**
+	 * @param gender the gender to set
+	 */
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	/**
+	 * @return the kubun
+	 */
+	public String getKubun() {
+		return kubun;
+	}
+
+	/**
+	 * @param kubun the kubun to set
+	 */
+	public void setKubun(String kubun) {
+		this.kubun = kubun;
+	}
+
+	/**
+	 * @return the setup
+	 */
+	public String getSetup() {
+		return setup;
+	}
+
+	/**
+	 * @param setup the setup to set
+	 */
+	public void setSetup(String setup) {
+		this.setup = setup;
 	}
 
 }

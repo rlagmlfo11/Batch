@@ -2,7 +2,6 @@ package com.sample.project.config;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.EntityManagerFactory;
@@ -41,9 +40,6 @@ public class BatchConfiguration {
 	private EntityManagerFactory entityManagerFactory;
 
 	@Autowired
-	private PeopleRepository peopleRepository;
-
-	@Autowired
 	private UpdateRepository updateRepository;
 
 	@Bean
@@ -58,18 +54,29 @@ public class BatchConfiguration {
 	@Bean
 	public ItemProcessor<People, People> processor() {
 		return new ItemProcessor<People, People>() {
+
 			@Override
 			public People process(People person) throws Exception {
-				// Look for an update in the Update table
 				Optional<Update> update = updateRepository.findById(person.getPersonalNumber());
 
 				if (update.isPresent()) {
-					// Apply the update to the person
-					person.setPosition(update.get().getPosition());
-					// ... apply other updates as needed
-				}
+					Update updateData = update.get();
+					if ("2".equals(updateData.getKubun())) {
+						return null;
+					} else {
+						person.setPosition(updateData.getPosition());
+						person.setGender(updateData.getGender());
 
-				// Return the person with any applied updates
+						// Split the setup column from Update and set them in People
+						String[] setupParts = updateData.getSetup().split("\\|");
+						if (setupParts.length == 4) { // Check if there are exactly 4 parts
+							person.setSetup1(setupParts[0]);
+							person.setSetup2(setupParts[1]);
+							person.setSetup3(setupParts[2]);
+							person.setSetup4(setupParts[3]);
+						}
+					}
+				}
 				return person;
 			}
 		};
@@ -85,14 +92,14 @@ public class BatchConfiguration {
 				setFieldExtractor(new BeanWrapperFieldExtractor<People>() {
 					{
 						setNames(new String[] { "personalNumber", "name", "gender", "job",
-								"position" });
+								"position", "setup1", "setup2", "setup3", "setup4" });
 					}
 				});
 			}
 		});
 		writer.setHeaderCallback(new FlatFileHeaderCallback() {
 			public void writeHeader(Writer writer) throws IOException {
-				writer.write("PersonalNumber,Name,gender,job,Position");
+				writer.write("번호,이름,성별,직업,포지션,레벨,자산,여자친구유무,자기처리유무");
 			}
 		});
 		return writer;
@@ -110,5 +117,5 @@ public class BatchConfiguration {
 		return jobBuilderFactory.get("updatePeopleJob").incrementer(new RunIdIncrementer())
 				.flow(updatePeopleStep).end().build();
 	}
-	
+
 }
