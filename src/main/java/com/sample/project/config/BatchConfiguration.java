@@ -47,7 +47,7 @@ public class BatchConfiguration {
 		JpaPagingItemReader<People> reader = new JpaPagingItemReader<>();
 		reader.setQueryString("SELECT p FROM People p");
 		reader.setEntityManagerFactory(entityManagerFactory);
-		reader.setPageSize(10); // The same as chunk size
+		reader.setPageSize(10);
 		return reader;
 	}
 
@@ -67,9 +67,8 @@ public class BatchConfiguration {
 						person.setPosition(updateData.getPosition());
 						person.setGender(updateData.getGender());
 
-						// Split the setup column from Update and set them in People
 						String[] setupParts = updateData.getSetup().split("\\|");
-						if (setupParts.length == 4) { // Check if there are exactly 4 parts
+						if (setupParts.length == 4) {
 							person.setSetup1(setupParts[0]);
 							person.setSetup2(setupParts[1]);
 							person.setSetup3(setupParts[2]);
