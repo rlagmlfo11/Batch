@@ -105,18 +105,6 @@ public class UpdatePeopleBatchConfig {
 		return writer;
 	}
 
-//	@Bean(name = "UpdateBean4")
-//	public Step updatePeopleStep(JpaPagingItemReader<People> reader,
-//			ItemProcessor<People, People> processor, FlatFileItemWriter<People> writer) {
-//		return stepBuilderFactory.get("updatePeopleStep").<People, People>chunk(10).reader(reader)
-//				.processor(processor).writer(writer).build();
-//	}
-//
-//	@Bean(name = "UpdateBean5")
-//	public Job updatePeopleJob(Step updatePeopleStep) {
-//		return jobBuilderFactory.get("updatePeopleJob").incrementer(new RunIdIncrementer())
-//				.flow(updatePeopleStep).end().build();
-//	}
 	@Bean
 	public Step updatePeopleStep(JpaPagingItemReader<People> reader,
 			ItemProcessor<People, People> processor, FlatFileItemWriter<People> writer) {

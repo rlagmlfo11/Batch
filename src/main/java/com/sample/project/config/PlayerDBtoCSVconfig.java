@@ -93,14 +93,6 @@ public class PlayerDBtoCSVconfig {
 		};
 	}
 
-//	@Bean(name = "PlayerBean5")
-//	public Step databaseToCsvFileStep(ItemProcessor<Player, Player> playerFilterProcessor,
-//			ItemWriter<Player> csvFileItemWriter, ItemReader<Player> databaseCsvItemReader) {
-//		return stepBuilderFactory.get("databaseToCsvFileStep").<Player, Player>chunk(10)
-//				.reader(databaseCsvItemReader).processor(playerFilterProcessor)
-//				.writer(csvFileItemWriter).build();
-//	}
-
 	@Bean
 	public Step playerDBToCSVStep(ItemProcessor<Player, Player> playerFilterProcessor,
 			ItemWriter<Player> csvFileItemWriter, ItemReader<Player> databaseCsvItemReader) {
@@ -121,12 +113,6 @@ public class PlayerDBtoCSVconfig {
 		return new JobCompletionNotificationListener();
 	}
 
-//	@Bean(name = "PlayerBean8")
-//	public Job databaseToCsvFileJob(JobCompletionNotificationListener listener,
-//			Step databaseToCsvFileStep) {
-//		return jobBuilderFactory.get("databaseToCsvFileJob").incrementer(new RunIdIncrementer())
-//				.listener(listener).flow(databaseToCsvFileStep).end().build();
-//	}
 	@Bean
 	public Job databaseToCsvFileJob(JobCompletionNotificationListener listener,
 			@Qualifier("playerDBToCSVStep") Step step) {

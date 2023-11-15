@@ -78,18 +78,6 @@ public class CustomerCSVtoDBconfig {
 		return writer;
 	}
 
-//	@Bean(name = "CustomerBean5")
-//	public Job importUserJob(JobCompletionNotificationListener listener, Step step) {
-//		return jobBuilderFactory.get("importCustomerJob").incrementer(new RunIdIncrementer())
-//				.listener(listener).flow(step).end().build();
-//	}
-//
-//	@Bean(name = "CustomerBean6")
-//	public Step step1(ItemWriter<Customer> writer) {
-//		return stepBuilderFactory.get("step1").<Customer, Customer>chunk(100).reader(reader1())
-//				.processor(processor1()).writer(writer).build();
-//	}
-
 	@Bean(name = "customerCSVStep")
 	public Step customerCSVStep(ItemWriter<Customer> writer) {
 		return stepBuilderFactory.get("customerCSVStep").<Customer, Customer>chunk(10)
