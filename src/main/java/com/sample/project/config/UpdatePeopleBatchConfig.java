@@ -17,6 +17,7 @@ import org.springframework.batch.item.file.FlatFileItemWriter;
 import org.springframework.batch.item.file.transform.BeanWrapperFieldExtractor;
 import org.springframework.batch.item.file.transform.DelimitedLineAggregator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.FileSystemResource;
@@ -28,7 +29,7 @@ import com.sample.project.entity.Update;
 
 @Configuration
 @EnableBatchProcessing
-public class BatchConfiguration {
+public class UpdatePeopleBatchConfig {
 
 	@Autowired
 	public JobBuilderFactory jobBuilderFactory;
@@ -98,12 +99,24 @@ public class BatchConfiguration {
 		});
 		writer.setHeaderCallback(new FlatFileHeaderCallback() {
 			public void writeHeader(Writer writer) throws IOException {
-				writer.write("번호,이름,성별,직업,포지션,set1,set2,set3,set4");
+				writer.write("number,name,gender,job,position,set1,set2,set3,set4");
 			}
 		});
 		return writer;
 	}
 
+//	@Bean(name = "UpdateBean4")
+//	public Step updatePeopleStep(JpaPagingItemReader<People> reader,
+//			ItemProcessor<People, People> processor, FlatFileItemWriter<People> writer) {
+//		return stepBuilderFactory.get("updatePeopleStep").<People, People>chunk(10).reader(reader)
+//				.processor(processor).writer(writer).build();
+//	}
+//
+//	@Bean(name = "UpdateBean5")
+//	public Job updatePeopleJob(Step updatePeopleStep) {
+//		return jobBuilderFactory.get("updatePeopleJob").incrementer(new RunIdIncrementer())
+//				.flow(updatePeopleStep).end().build();
+//	}
 	@Bean
 	public Step updatePeopleStep(JpaPagingItemReader<People> reader,
 			ItemProcessor<People, People> processor, FlatFileItemWriter<People> writer) {
@@ -112,7 +125,7 @@ public class BatchConfiguration {
 	}
 
 	@Bean
-	public Job updatePeopleJob(Step updatePeopleStep) {
+	public Job updatePeopleJob(@Qualifier("updatePeopleStep") Step updatePeopleStep) {
 		return jobBuilderFactory.get("updatePeopleJob").incrementer(new RunIdIncrementer())
 				.flow(updatePeopleStep).end().build();
 	}
