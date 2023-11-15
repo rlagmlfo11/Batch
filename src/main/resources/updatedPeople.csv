@@ -1,4 +1,4 @@
-번호,이름,성별,직업,포지션,레벨,자산,여자친구유무,자기처리유무
+번호,이름,성별,직업,포지션,set1,set2,set3,set4
 111111,kim,woman,trader,normal,20,100조,있음,잘 못함
 222222,sam,man,teacher,boss,,,,
 333333,park,man,computer fixer,normal,30,10원,없음,잘 못함

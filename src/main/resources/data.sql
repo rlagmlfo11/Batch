@@ -1,11 +1,11 @@
 insert into PEOPLE(personalNumber, name, gender, job, position, setup1, setup2, setup3, setup4)
-values (111111,'kim','man','trader', 'boss','','','','');
+values (111111,'kim','man','trader', 'boss','3434','3434','3434','3434');
 
 insert into PEOPLE(personalNumber, name, gender, job, position, setup1, setup2, setup3, setup4)
 values (222222,'sam','man','teacher', 'boss','','','','');
 
 insert into PEOPLE(personalNumber, name, gender, job, position, setup1, setup2, setup3, setup4)
-values (333333,'park','man','computer fixer', 'boss','','','','');
+values (333333,'park','man','computer fixer', 'boss','44','44','ass','ddd22');
 
 insert into PEOPLE(personalNumber, name, gender, job, position, setup1, setup2, setup3, setup4)
 values (444444,'jeong','man','smoker', 'boss','','','','');

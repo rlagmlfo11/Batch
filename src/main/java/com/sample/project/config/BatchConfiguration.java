@@ -21,8 +21,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.FileSystemResource;
 
-import com.sample.project.dto.PeopleRepository;
 import com.sample.project.dto.UpdateRepository;
+
 import com.sample.project.entity.People;
 import com.sample.project.entity.Update;
 
@@ -98,7 +98,7 @@ public class BatchConfiguration {
 		});
 		writer.setHeaderCallback(new FlatFileHeaderCallback() {
 			public void writeHeader(Writer writer) throws IOException {
-				writer.write("번호,이름,성별,직업,포지션,레벨,자산,여자친구유무,자기처리유무");
+				writer.write("번호,이름,성별,직업,포지션,set1,set2,set3,set4");
 			}
 		});
 		return writer;
