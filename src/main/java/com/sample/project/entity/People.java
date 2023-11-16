@@ -37,12 +37,15 @@ public class People {
 	@Column(name = "SETUP4")
 	private String setup4;
 
+	@Column(name = "RECEIVED_DATE")
+	private String date;
+
 	public People() {
 
 	}
 
 	public People(Long personalNumber, String name, String gender, String job, String position,
-			String setup1, String setup2, String setup3, String setup4) {
+			String setup1, String setup2, String setup3, String setup4, String date) {
 		super();
 		this.personalNumber = personalNumber;
 		this.name = name;
@@ -53,6 +56,7 @@ public class People {
 		this.setup2 = setup2;
 		this.setup3 = setup3;
 		this.setup4 = setup4;
+		this.date = date;
 	}
 
 	/**
@@ -179,6 +183,20 @@ public class People {
 	 */
 	public void setSetup4(String setup4) {
 		this.setup4 = setup4;
+	}
+
+	/**
+	 * @return the date
+	 */
+	public String getDate() {
+		return date;
+	}
+
+	/**
+	 * @param date the date to set
+	 */
+	public void setDate(String date) {
+		this.date = date;
 	}
 
 }

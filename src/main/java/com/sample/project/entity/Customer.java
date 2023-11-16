@@ -36,12 +36,15 @@ public class Customer {
 	@Column(name = "DOB")
 	private String dob;
 
+	@Column(name = "RECEIVED_DATE")
+	private String date;
+
 	public Customer() {
 
 	}
 
 	public Customer(Long id, String firstname, String lastname, String email, String gender,
-			String contactNumber, String country, String dob) {
+			String contactNumber, String country, String dob, String date) {
 		super();
 		this.id = id;
 		this.firstname = firstname;
@@ -51,6 +54,7 @@ public class Customer {
 		this.contactNumber = contactNumber;
 		this.country = country;
 		this.dob = dob;
+		this.date = date;
 	}
 
 	/**
@@ -163,6 +167,20 @@ public class Customer {
 	 */
 	public void setDob(String dob) {
 		this.dob = dob;
+	}
+
+	/**
+	 * @return the date
+	 */
+	public String getDate() {
+		return date;
+	}
+
+	/**
+	 * @param date the date to set
+	 */
+	public void setDate(String date) {
+		this.date = date;
 	}
 
 }

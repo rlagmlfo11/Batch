@@ -43,7 +43,7 @@ public class UpdatePeopleBatchConfig {
 	@Autowired
 	private UpdateRepository updateRepository;
 
-	@Bean
+	@Bean(name = "PeopleReader")
 	public JpaPagingItemReader<People> reader() {
 		JpaPagingItemReader<People> reader = new JpaPagingItemReader<>();
 		reader.setQueryString("SELECT p FROM People p");
@@ -52,7 +52,7 @@ public class UpdatePeopleBatchConfig {
 		return reader;
 	}
 
-	@Bean
+	@Bean(name = "PeopleProcessor")
 	public ItemProcessor<People, People> processor() {
 		return new ItemProcessor<People, People>() {
 
@@ -82,7 +82,7 @@ public class UpdatePeopleBatchConfig {
 		};
 	}
 
-	@Bean
+	@Bean(name = "PeopleWriter")
 	public FlatFileItemWriter<People> writer() {
 		FlatFileItemWriter<People> writer = new FlatFileItemWriter<>();
 		writer.setResource(new FileSystemResource("src/main/resources/updatedPeople.csv"));
@@ -105,14 +105,14 @@ public class UpdatePeopleBatchConfig {
 		return writer;
 	}
 
-	@Bean
+	@Bean(name = "updatePeopleStep")
 	public Step updatePeopleStep(JpaPagingItemReader<People> reader,
 			ItemProcessor<People, People> processor, FlatFileItemWriter<People> writer) {
 		return stepBuilderFactory.get("updatePeopleStep").<People, People>chunk(10).reader(reader)
 				.processor(processor).writer(writer).build();
 	}
 
-	@Bean
+	@Bean(name = "updatePeopleJob")
 	public Job updatePeopleJob(@Qualifier("updatePeopleStep") Step updatePeopleStep) {
 		return jobBuilderFactory.get("updatePeopleJob").incrementer(new RunIdIncrementer())
 				.flow(updatePeopleStep).end().build();

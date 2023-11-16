@@ -1,5 +1,8 @@
 package com.sample.project.config;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 import org.springframework.batch.core.BatchStatus;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
@@ -28,6 +31,10 @@ import com.sample.project.entity.Customer;
 @EnableBatchProcessing
 public class CustomerCSVtoDBconfig {
 
+	LocalDate currentDate = LocalDate.now();
+	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+	String formattedDate = currentDate.format(formatter);
+
 	@Autowired
 	public JobBuilderFactory jobBuilderFactory;
 
@@ -37,7 +44,7 @@ public class CustomerCSVtoDBconfig {
 	@Autowired
 	private CustomerRepository customerRepository;
 
-	@Bean(name = "CustomerBean1")
+	@Bean(name = "CustomerReader1")
 	public FlatFileItemReader<Customer> reader1() {
 		return new FlatFileItemReaderBuilder<Customer>().name("customerItemReader")
 				.resource(new ClassPathResource("customer.csv")).delimited()
@@ -50,12 +57,13 @@ public class CustomerCSVtoDBconfig {
 				}).build();
 	}
 
-	@Bean(name = "CustomerBean2")
+	@Bean(name = "CustomerProcessor1")
 	public ItemProcessor<Customer, Customer> processor1() {
 		return new ItemProcessor<Customer, Customer>() {
 			@Override
 			public Customer process(Customer customer) throws Exception {
 				String country = customer.getCountry();
+				customer.setDate(formattedDate);
 				if ("China".equalsIgnoreCase(country) || "France".equalsIgnoreCase(country)) {
 					return customer;
 				} else {
@@ -65,12 +73,12 @@ public class CustomerCSVtoDBconfig {
 		};
 	}
 
-	@Bean(name = "CustomerBean3")
+	@Bean(name = "CustomerProcessor")
 	public CustomerItemProcessor processor() {
 		return new CustomerItemProcessor();
 	}
 
-	@Bean(name = "CustomerBean4")
+	@Bean(name = "CustomerWriter")
 	public RepositoryItemWriter<Customer> writer() {
 		RepositoryItemWriter<Customer> writer = new RepositoryItemWriter<>();
 		writer.setRepository(customerRepository);
@@ -84,7 +92,7 @@ public class CustomerCSVtoDBconfig {
 				.reader(reader1()).processor(processor1()).writer(writer).build();
 	}
 
-	@Bean(name = "CustomerBean5")
+	@Bean(name = "importCustomerJob")
 	public Job importUserJob(JobCompletionNotificationListener listener,
 			@Qualifier("customerCSVStep") Step step) {
 		return jobBuilderFactory.get("importCustomerJob").incrementer(new RunIdIncrementer())
@@ -98,7 +106,7 @@ public class CustomerCSVtoDBconfig {
 		}
 	}
 
-	@Bean(name = "CustomerBean7")
+	@Bean(name = "CustomerListener")
 	public JobCompletionNotificationListener jobExecutionListener() {
 		return new JobCompletionNotificationListener();
 	}

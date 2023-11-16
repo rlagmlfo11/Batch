@@ -41,7 +41,7 @@ public class PlayerDBtoCSVconfig {
 	@Autowired
 	public StepBuilderFactory stepBuilderFactory;
 
-	@Bean
+	@Bean(name = "PlayerReader")
 	public JdbcCursorItemReader<Player> databaseCsvItemReader(DataSource dataSource) {
 		JdbcCursorItemReader<Player> databaseReader = new JdbcCursorItemReader<>();
 		databaseReader.setDataSource(dataSource);
@@ -50,7 +50,7 @@ public class PlayerDBtoCSVconfig {
 		return databaseReader;
 	}
 
-	@Bean
+	@Bean(name = "PlayerCallback")
 	public FlatFileHeaderCallback headerCallback() {
 		return new FlatFileHeaderCallback() {
 			public void writeHeader(Writer writer) throws IOException {
@@ -59,7 +59,7 @@ public class PlayerDBtoCSVconfig {
 		};
 	}
 
-	@Bean
+	@Bean(name = "PlayerWriter")
 	public FlatFileItemWriter<Player> csvFileWriter() {
 		FlatFileItemWriter<Player> writer = new FlatFileItemWriter<>();
 		writer.setResource(new FileSystemResource("src/main/resources/output_Player.csv"));
@@ -80,7 +80,7 @@ public class PlayerDBtoCSVconfig {
 	}
 
 	// 조건
-	@Bean
+	@Bean(name = "PlayerProcessor")
 	public ItemProcessor<Player, Player> playerFilterProcessor() {
 		return new ItemProcessor<Player, Player>() {
 			@Override
@@ -93,7 +93,7 @@ public class PlayerDBtoCSVconfig {
 		};
 	}
 
-	@Bean
+	@Bean(name = "playerDBToCSVStep")
 	public Step playerDBToCSVStep(ItemProcessor<Player, Player> playerFilterProcessor,
 			ItemWriter<Player> csvFileItemWriter, ItemReader<Player> databaseCsvItemReader) {
 		return stepBuilderFactory.get("playerDBToCSVStep").<Player, Player>chunk(10)
@@ -101,19 +101,19 @@ public class PlayerDBtoCSVconfig {
 				.writer(csvFileItemWriter).build();
 	}
 
-	@Bean
+	@Bean(name = "databaseToCsvFileStep")
 	public Step databaseToCsvFileStep(ItemWriter<Player> csvFileItemWriter,
 			ItemReader<Player> databaseCsvItemReader) {
 		return stepBuilderFactory.get("databaseToCsvFileStep").<Player, Player>chunk(10)
 				.reader(databaseCsvItemReader).writer(csvFileItemWriter).build();
 	}
 
-	@Bean
+	@Bean(name = "JobListener")
 	public JobCompletionNotificationListener jobCompletionNotificationListener() {
 		return new JobCompletionNotificationListener();
 	}
 
-	@Bean
+	@Bean(name = "databaseToCsvFileJob")
 	public Job databaseToCsvFileJob(JobCompletionNotificationListener listener,
 			@Qualifier("playerDBToCSVStep") Step step) {
 		return jobBuilderFactory.get("databaseToCsvFileJob").incrementer(new RunIdIncrementer())

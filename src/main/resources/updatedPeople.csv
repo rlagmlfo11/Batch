@@ -1,8 +1,8 @@
 number,name,gender,job,position,set1,set2,set3,set4
-111111,kim,woman,trader,normal,20,100조,있음,잘 못함
+111111,kim,woman,trader,normal,20,100yen,YES,VERY BAD
 222222,sam,man,teacher,boss,,,,
-333333,park,man,computer fixer,normal,30,10원,없음,잘 못함
-444444,jeong,woman,smoker,normal,50,10억,모쏠,존나 못함
+333333,park,man,computer fixer,normal,30,10yen,NO,VERY BAD
+444444,jeong,woman,smoker,normal,50,10yen,NO,good
 555555,lee,man,fighter,boss,,,,
 666666,song,man,car center worker,boss,,,,
 888888,yang,man,cleaner,boss,,,,
