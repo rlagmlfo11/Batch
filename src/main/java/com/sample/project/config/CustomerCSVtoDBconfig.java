@@ -32,7 +32,7 @@ import com.sample.project.entity.Customer;
 public class CustomerCSVtoDBconfig {
 
 	LocalDate currentDate = LocalDate.now();
-	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
 	String formattedDate = currentDate.format(formatter);
 
 	@Autowired
