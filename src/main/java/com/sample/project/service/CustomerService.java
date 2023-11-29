@@ -18,8 +18,4 @@ public class CustomerService {
 		return customerRepository.findAll();
 	}
 
-	public void saveCustomer(Customer customer) {
-		customerRepository.save(customer);
-	}
-
 }
