@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Update Customer</title>
+</head>
+
+<body>
+	<h1>Update Customer</h1>
+	<form th:action="@{/customers/{id}(id = ${customer.id})}" method="post" onsubmit="return registered()">
+		<div>
+			<label for="firstname">First Name:</label>
+			<input type="text" id="firstname" name="firstname" required th:value="${customer.firstname}" />
+		</div>
+		<div>
+			<label for="lastname">Last Name:</label>
+			<input type="text" id="lastname" name="lastname" required th:value="${customer.lastname}" />
+		</div>
+		<div>
+			<label for="email">Email:</label>
+			<input type="email" id="email" name="email" required th:value="${customer.email}" />
+		</div>
+		<div>
+			<label for="gender">Gender:</label>
+			<input type="text" id="gender" name="gender" required th:value="${customer.gender}" />
+		</div>
+		<div>
+			<label for="contactNumber">Contact Number:</label>
+			<input type="text" id="contactNumber" name="contactNumber" required th:value="${customer.contactNumber}" />
+		</div>
+		<div>
+			<label for="country">Country:</label>
+			<input type="text" id="country" name="country" required th:value="${customer.country}" />
+		</div>
+		<div>
+			<label for="dob">Date of Birth:</label>
+			<input type="text" id="dob" name="dob" />
+		</div>
+		<div>
+			<label for="receivedDate">Received Date:</label>
+			<input type="text" id="receivedDate" name="receivedDate" />
+		</div>
+		<div>
+			<button type="submit">Register</button>
+		</div>
+	</form>
+</body>
+
+<script>
+	function registered() {
+		const firstname = document.getElementById("firstname").value;
+		const lastname = document.getElementById("lastname").value;
+		const email = document.getElementById("email").value;
+		const gender = document.getElementById("gender").value;
+		const contactNumber = document.getElementById("contactNumber").value;
+		const country = document.getElementById("country").value;
+
+		if (firstname !== "" && lastname !== "" && email != "" && gender != "" && contactNumber != "" && country != "") {
+			alert("업데이트완료");
+			return true;
+		} else {
+			return false;
+		}
+	}
+</script>
+
+
+</html>

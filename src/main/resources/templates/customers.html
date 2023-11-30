@@ -4,10 +4,31 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Customer List</title>
+	<style>
+		.header {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+		}
+
+		.header-buttons {
+			margin-left: 20px;
+		}
+
+		button {
+			margin-right: 10px;
+		}
+	</style>
 </head>
 
 <body>
-	<h1>Customer List</h1>
+	<div class="header">
+		<h1>Customer List</h1>
+		<div class="header-buttons">
+			<a href="new" onclick="history.back();">Register</a>
+			<button onclick="downloadCustomers()">Download</button>
+		</div>
+	</div>
 	<table>
 		<thead>
 			<tr>
@@ -24,7 +45,9 @@
 		</thead>
 		<tbody>
 			<tr th:each="customer : ${customers}">
-				<td th:text="${customer.id}"></td>
+				<td>
+					<a th:href="@{/customers/{id}(id=${customer.id})}" th:text="${customer.id}"></a>
+				</td>
 				<td th:text="${customer.firstname}"></td>
 				<td th:text="${customer.lastname}"></td>
 				<td th:text="${customer.email}"></td>

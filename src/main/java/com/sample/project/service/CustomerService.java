@@ -18,4 +18,17 @@ public class CustomerService {
 		return customerRepository.findAll();
 	}
 
+	public void registerCustomer(Customer customer) {
+		customerRepository.save(customer);
+	}
+
+	public void updateCustomer(Customer customer) {
+		customerRepository.save(customer);
+	}
+
+	public Customer getCustomerById(Long id) {
+		Customer getCustomerById = customerRepository.findById(id).get();
+		return getCustomerById;
+	}
+
 }
