@@ -18,6 +18,7 @@ import org.springframework.batch.item.data.RepositoryItemWriter;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.builder.FlatFileItemReaderBuilder;
 import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
+import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -91,7 +92,7 @@ public class CustomerCSVtoDBconfig {
 	public Job importUserJob(JobCompletionNotificationListener listener,
 			@Qualifier("customerCSVStep") Step step) {
 		return jobBuilderFactory.get("importCustomerJob").incrementer(new RunIdIncrementer())
-				.listener(listener).flow(step).end().build();
+				.listener(listener).flow(step).next(deleteOldRecordsStep()).end().build();
 	}
 
 	public static class CustomerItemProcessor implements ItemProcessor<Customer, Customer> {
@@ -99,6 +100,16 @@ public class CustomerCSVtoDBconfig {
 		public Customer process(final Customer customer) throws Exception {
 			return customer;
 		}
+	}
+
+	@Bean(name = "deleteCustomerStep")
+	public Step deleteOldRecordsStep() {
+		return stepBuilderFactory.get("deleteOldRecordsStep")
+				.tasklet((contribution, chunkContext) -> {
+					LocalDate oneMonthAgo = LocalDate.now().minusMonths(1);
+					customerRepository.deleteOlderThan(oneMonthAgo);
+					return RepeatStatus.FINISHED;
+				}).build();
 	}
 
 	@Bean(name = "CustomerListener")

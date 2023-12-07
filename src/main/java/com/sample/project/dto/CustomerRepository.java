@@ -12,9 +12,9 @@ import com.sample.project.entity.Customer;
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
 // 한달보다 오래된 데이터가 있으면 삭제시키는 쿼리
-//	@Transactional
-//	@Modifying
-//	@Query("DELTE FROM Customer c where c.date < :cufoffDate")
-//	void deleteOlderThan(LocalDate cutoffDate);
+	@Transactional
+	@Modifying
+	@Query("DELETE FROM Customer c where c.date < :cufoffDate")
+	void deleteOlderThan(LocalDate cutoffDate);
 
 }
