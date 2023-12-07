@@ -99,7 +99,7 @@ public class UpdatePeopleBatchConfig {
 		});
 		writer.setHeaderCallback(new FlatFileHeaderCallback() {
 			public void writeHeader(Writer writer) throws IOException {
-				writer.write("number,name,gender,job,position,set1,set2,set3,set4");
+				writer.write("personal number,name,gender,job,position,set1,set2,set3,set4");
 			}
 		});
 		return writer;

@@ -1,4 +1,4 @@
-number,name,gender,job,position,set1,set2,set3,set4
+personal number,name,gender,job,position,set1,set2,set3,set4
 111111,kim,woman,trader,normal,20,100yen,YES,VERY BAD
 222222,sam,man,teacher,boss,,,,
 333333,park,man,computer fixer,normal,30,10yen,NO,VERY BAD

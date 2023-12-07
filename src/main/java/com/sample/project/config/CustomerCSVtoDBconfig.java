@@ -62,13 +62,8 @@ public class CustomerCSVtoDBconfig {
 		return new ItemProcessor<Customer, Customer>() {
 			@Override
 			public Customer process(Customer customer) throws Exception {
-				String country = customer.getCountry();
 				customer.setDate(formattedDate);
-				if ("China".equalsIgnoreCase(country) || "France".equalsIgnoreCase(country)) {
-					return customer;
-				} else {
-					return null;
-				}
+				return customer;
 			}
 		};
 	}
