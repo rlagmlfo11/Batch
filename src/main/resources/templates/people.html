@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title>Customer List</title>
+	<title>People List</title>
 	<style>
 		.header,
 		.sidebar {
@@ -103,12 +103,11 @@
 
 	<div class="main-content">
 
-
 		<div class="header">
-			<h1>Customer List</h1>
+			<h1>People List</h1>
 			<div class="header-buttons">
-				<a href="newCustomer" class="button-link" onclick="history.back();">Register</a>
-				<button class="button-download" onclick="downloadCustomers()">Download</button>
+				<a href="newPeople" class="button-link" onclick="history.back();">Register</a>
+				<button class="button-download" onclick="downloadPeople()">Download</button>
 			</div>
 		</div>
 
@@ -116,30 +115,34 @@
 			<table>
 				<thead>
 					<tr>
-						<th>ID</th>
-						<th>First Name</th>
-						<th>Last Name</th>
-						<th>Email</th>
-						<th>Gender</th>
-						<th>Contact Number</th>
-						<th>Country</th>
-						<th>Date of Birth</th>
+						<th>PERSONALNUMBER</th>
+						<th>NAME</th>
+						<th>GENDER</th>
+						<th>JOB</th>
+						<th>POSITION</th>
+						<th>SETUP1</th>
+						<th>SETUP2</th>
+						<th>SETUP3</th>
+						<th>SETUP4</th>
 						<th>Received Date</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr th:each="customer : ${customers}">
+					<tr th:each="person : ${people}">
 						<td>
-							<a th:href="@{/customers/{id}(id=${customer.id})}" th:text="${customer.id}"></a>
+							<a th:href="@{/people/{id}(id=${person.personalNumber})}"
+								th:text="${person.personalNumber}"></a>
 						</td>
-						<td th:text="${customer.firstname}"></td>
-						<td th:text="${customer.lastname}"></td>
-						<td th:text="${customer.email}"></td>
-						<td th:text="${customer.gender}"></td>
-						<td th:text="${customer.contactNumber}"></td>
-						<td th:text="${customer.country}"></td>
-						<td th:text="${customer.dob}"></td>
-						<td th:text="${customer.date}"></td>
+						<td th:text="${person.personalNumber}"></td>
+						<td th:text="${person.name}"></td>
+						<td th:text="${person.gender}"></td>
+						<td th:text="${person.job}"></td>
+						<td th:text="${person.position}"></td>
+						<td th:text="${person.setup1}"></td>
+						<td th:text="${person.setup2}"></td>
+						<td th:text="${person.setup3}"></td>
+						<td th:text="${person.setup4}"></td>
+						<td th:text="${person.date}"></td>
 					</tr>
 				</tbody>
 			</table>

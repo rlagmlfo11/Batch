@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>New People</title>
+</head>
+
+<body>
+	<h1>Register New People</h1>
+	<form method="post" onsubmit="return registered()">
+		<div>
+			<label for="name">Name:</label>
+			<input type="text" id="name" name="name" required />
+		</div>
+		<div>
+			<label for="gender">Gender:</label>
+			<input type="text" id="gender" name="gender" required />
+		</div>
+		<div>
+			<label for="job">JOB:</label>
+			<input type="text" id="job" name="job" required />
+		</div>
+		<div>
+			<label for="position">POSITION:</label>
+			<input type="text" id="position" name="position" required />
+		</div>
+		<div>
+			<label for="setup1">SETUP1:</label>
+			<input type="text" id="setup1" name="setup1" required />
+		</div>
+		<div>
+			<label for="setup2">SETUP2:</label>
+			<input type="text" id="setup2" name="setup2" required />
+		</div>
+		<div>
+			<label for="setup3">SETUP3:</label>
+			<input type="text" id="setup3" name="setup3" required />
+		</div>
+		<div>
+			<label for="setup4">SETUP4:</label>
+			<input type="text" id="setup4" name="setup4" required />
+		</div>
+
+		<div>
+			<label for="date">Received Date:</label>
+			<input type="text" id="date" name="date" />
+		</div>
+		<div>
+			<button type="submit">Register</button>
+		</div>
+	</form>
+</body>
+
+<script>
+	function registered() {
+		const name = document.getElementById("name").value;
+		const gender = document.getElementById("gender").value;
+		const job = document.getElementById("job").value;
+		const position = document.getElementById("position").value;
+		const setup1 = document.getElementById("setup1").value;
+		const setup2 = document.getElementById("setup2").value;
+		const setup3 = document.getElementById("setup3").value;
+		const setup4 = document.getElementById("setup4").value;
+
+		// Check if all input fields are valid
+		if (name !== "" && gender !== "" && job != "" && position != "" && setup1 != "" && setup2 != "" && setup3 != "" && setup4 != "") {
+			alert("등록완료");
+			return true;
+		} else {
+			return false;
+		}
+	}
+</script>
+
+
+</html>

@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title>Customer List</title>
+	<title>Player List</title>
 	<style>
 		.header,
 		.sidebar {
@@ -105,10 +105,10 @@
 
 
 		<div class="header">
-			<h1>Customer List</h1>
+			<h1>Player List</h1>
 			<div class="header-buttons">
-				<a href="newCustomer" class="button-link" onclick="history.back();">Register</a>
-				<button class="button-download" onclick="downloadCustomers()">Download</button>
+				<a href="new" class="button-link" onclick="history.back();">Register</a>
+				<button class="button-download" onclick="downloadPlayers()">Download</button>
 			</div>
 		</div>
 
@@ -117,29 +117,23 @@
 				<thead>
 					<tr>
 						<th>ID</th>
-						<th>First Name</th>
-						<th>Last Name</th>
-						<th>Email</th>
-						<th>Gender</th>
-						<th>Contact Number</th>
-						<th>Country</th>
-						<th>Date of Birth</th>
-						<th>Received Date</th>
+						<th>Name</th>
+						<th>AGE</th>
+						<th>GENDER</th>
+						<th>MAIL</th>
+						<th>WAGE</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr th:each="customer : ${customers}">
+					<tr th:each="player : ${players}">
 						<td>
-							<a th:href="@{/customers/{id}(id=${customer.id})}" th:text="${customer.id}"></a>
+							<a th:href="@{/players/{id}(id=${player.id})}" th:text="${player.id}"></a>
 						</td>
-						<td th:text="${customer.firstname}"></td>
-						<td th:text="${customer.lastname}"></td>
-						<td th:text="${customer.email}"></td>
-						<td th:text="${customer.gender}"></td>
-						<td th:text="${customer.contactNumber}"></td>
-						<td th:text="${customer.country}"></td>
-						<td th:text="${customer.dob}"></td>
-						<td th:text="${customer.date}"></td>
+						<td th:text="${player.name}"></td>
+						<td th:text="${player.age}"></td>
+						<td th:text="${player.gender}"></td>
+						<td th:text="${player.mail}"></td>
+						<td th:text="${player.wage}"></td>
 					</tr>
 				</tbody>
 			</table>

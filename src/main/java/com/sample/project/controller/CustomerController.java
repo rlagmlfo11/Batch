@@ -22,12 +22,12 @@ public class CustomerController {
 		return "customers";
 	}
 
-	@GetMapping("/new")
+	@GetMapping("/newCustomer")
 	public String registerCustomer() {
-		return "new";
+		return "newCustomer";
 	}
 
-	@PostMapping("/new")
+	@PostMapping("/newCustomer")
 	public String registerCustomer(Customer customer) {
 		customerService.registerCustomer(customer);
 		return "redirect:/customers";
@@ -41,7 +41,7 @@ public class CustomerController {
 
 	@PostMapping("/customers/{id}")
 	public String updateCustomer(@PathVariable("id") Long id, Customer customer) {
-		customerService.registerCustomer(customer);
+		customerService.updateCustomer(customer);
 		return "redirect:/customers";
 	}
 

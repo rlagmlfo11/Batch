@@ -92,7 +92,7 @@ public class CustomerCSVtoDBconfig {
 	public Job importUserJob(JobCompletionNotificationListener listener,
 			@Qualifier("customerCSVStep") Step step) {
 		return jobBuilderFactory.get("importCustomerJob").incrementer(new RunIdIncrementer())
-				.listener(listener).flow(step).next(deleteOldRecordsStep()).end().build();
+				.listener(listener).flow(step).end().build();
 	}
 
 	public static class CustomerItemProcessor implements ItemProcessor<Customer, Customer> {
@@ -102,15 +102,15 @@ public class CustomerCSVtoDBconfig {
 		}
 	}
 
-	@Bean(name = "deleteCustomerStep")
-	public Step deleteOldRecordsStep() {
-		return stepBuilderFactory.get("deleteOldRecordsStep")
-				.tasklet((contribution, chunkContext) -> {
-					LocalDate oneMonthAgo = LocalDate.now().minusMonths(1);
-					customerRepository.deleteOlderThan(oneMonthAgo);
-					return RepeatStatus.FINISHED;
-				}).build();
-	}
+//	@Bean(name = "deleteCustomerStep")
+//	public Step deleteOldRecordsStep() {
+//		return stepBuilderFactory.get("deleteOldRecordsStep")
+//				.tasklet((contribution, chunkContext) -> {
+//					LocalDate oneMonthAgo = LocalDate.now().minusMonths(1);
+//					customerRepository.deleteOlderThan(oneMonthAgo);
+//					return RepeatStatus.FINISHED;
+//				}).build();
+//	}
 
 	@Bean(name = "CustomerListener")
 	public JobCompletionNotificationListener jobExecutionListener() {
