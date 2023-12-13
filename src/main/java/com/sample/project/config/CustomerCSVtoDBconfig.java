@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.ClassPathResource;
 
 import com.sample.project.dto.CustomerRepository;
@@ -46,6 +47,7 @@ public class CustomerCSVtoDBconfig {
 	private CustomerRepository customerRepository;
 
 	@Bean(name = "CustomerReader1")
+	@Primary
 	public FlatFileItemReader<Customer> reader1() {
 		return new FlatFileItemReaderBuilder<Customer>().name("customerItemReader")
 				.resource(new ClassPathResource("customer.csv")).delimited()
