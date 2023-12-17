@@ -10,6 +10,7 @@ import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.listener.JobExecutionListenerSupport;
 import org.springframework.batch.item.ItemProcessor;
@@ -18,7 +19,6 @@ import org.springframework.batch.item.data.RepositoryItemWriter;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.builder.FlatFileItemReaderBuilder;
 import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
-import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -71,12 +71,12 @@ public class CustomerCSVtoDBconfig {
 		};
 	}
 
-	@Bean(name = "CustomerProcessor")
-	public CustomerItemProcessor processor() {
-		return new CustomerItemProcessor();
-	}
+//	@Bean(name = "CustomerProcessor")
+//	public CustomerItemProcessor processor() {
+//		return new CustomerItemProcessor();
+//	}
 
-	@Bean(name = "CustomerWriter")
+	@Bean(name = "RepositoryItemWriter")
 	public RepositoryItemWriter<Customer> writer() {
 		RepositoryItemWriter<Customer> writer = new RepositoryItemWriter<>();
 		writer.setRepository(customerRepository);
@@ -91,18 +91,17 @@ public class CustomerCSVtoDBconfig {
 	}
 
 	@Bean(name = "importCustomerJob")
-	public Job importUserJob(JobCompletionNotificationListener listener,
-			@Qualifier("customerCSVStep") Step step) {
+	public Job importCustomerJob(@Qualifier("customerCSVStep") Step step) {
 		return jobBuilderFactory.get("importCustomerJob").incrementer(new RunIdIncrementer())
-				.listener(listener).flow(step).end().build();
+				.start(step).build();
 	}
 
-	public static class CustomerItemProcessor implements ItemProcessor<Customer, Customer> {
-		@Override
-		public Customer process(final Customer customer) throws Exception {
-			return customer;
-		}
-	}
+//	public static class CustomerItemProcessor implements ItemProcessor<Customer, Customer> {
+//		@Override
+//		public Customer process(final Customer customer) throws Exception {
+//			return customer;
+//		}
+//	}
 
 //	@Bean(name = "deleteCustomerStep")
 //	public Step deleteOldRecordsStep() {
@@ -114,19 +113,19 @@ public class CustomerCSVtoDBconfig {
 //				}).build();
 //	}
 
-	@Bean(name = "CustomerListener")
-	public JobCompletionNotificationListener jobExecutionListener() {
-		return new JobCompletionNotificationListener();
-	}
-
-	public static class JobCompletionNotificationListener extends JobExecutionListenerSupport {
-
-		@Override
-		public void afterJob(JobExecution jobExecution) {
-			if (jobExecution.getStatus() == BatchStatus.COMPLETED) {
-				System.out.println("JOB FINISHED!");
-			}
-		}
-	}
+//	@Bean(name = "CustomerListener")
+//	public JobCompletionNotificationListener jobExecutionListener() {
+//		return new JobCompletionNotificationListener();
+//	}
+//
+//	public static class JobCompletionNotificationListener extends JobExecutionListenerSupport {
+//
+//		@Override
+//		public void afterJob(JobExecution jobExecution) {
+//			if (jobExecution.getStatus() == BatchStatus.COMPLETED) {
+//				System.out.println("JOB FINISHED!");
+//			}
+//		}
+//	}
 
 }
