@@ -145,20 +145,22 @@ public class ResultTableConfig {
 	public Step firstTableStep(StepBuilderFactory stepBuilderFactory,
 			ItemReader<FirstTable> firstTableReader,
 			ItemProcessor<FirstTable, ResultTable> firstTableProcessor,
-			@Qualifier("resultTableCsvWriter") ItemWriter<ResultTable> resultTableCsvWriter) {
+			@Qualifier("resultTableCompositeItemWriter") CompositeItemWriter<ResultTable> resultTableCompositeItemWriter) {
 		return stepBuilderFactory.get("firstTableStep").<FirstTable, ResultTable>chunk(10)
 				.reader(firstTableReader).processor(firstTableProcessor)
-				.writer(resultTableCsvWriter).build();
+				.writer(resultTableCompositeItemWriter) // Use the composite writer
+				.build();
 	}
 
 	@Bean(name = "secondTableStep")
 	public Step secondTableStep(StepBuilderFactory stepBuilderFactory,
 			ItemReader<SecondTable> secondTableReader,
 			ItemProcessor<SecondTable, ResultTable> secondTableProcessor,
-			@Qualifier("resultTableCsvWriter") ItemWriter<ResultTable> resultTableCsvWriter) {
+			@Qualifier("resultTableCompositeItemWriter") CompositeItemWriter<ResultTable> resultTableCompositeItemWriter) {
 		return stepBuilderFactory.get("secondTableStep").<SecondTable, ResultTable>chunk(10)
 				.reader(secondTableReader).processor(secondTableProcessor)
-				.writer(resultTableCsvWriter).build();
+				.writer(resultTableCompositeItemWriter) // Use the composite writer
+				.build();
 	}
 
 	@Bean(name = "resultTableJob")
