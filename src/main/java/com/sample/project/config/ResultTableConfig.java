@@ -35,7 +35,6 @@ import com.sample.project.dto.ResultTableRepository;
 import com.sample.project.entity.FirstTable;
 import com.sample.project.entity.ResultTable;
 import com.sample.project.entity.SecondTable;
-import com.sample.project.hardcoding.CustomSeparatorItemWriter;
 
 @Configuration
 @EnableBatchProcessing
@@ -146,10 +145,10 @@ public class ResultTableConfig {
 	public Step firstTableStep(StepBuilderFactory stepBuilderFactory,
 			ItemReader<FirstTable> firstTableReader,
 			ItemProcessor<FirstTable, ResultTable> firstTableProcessor,
-			@Qualifier("separatorWriter") ItemWriter<ResultTable> separatorWriter) {
+			@Qualifier("resultTableCsvWriter") ItemWriter<ResultTable> resultTableCsvWriter) {
 		return stepBuilderFactory.get("firstTableStep").<FirstTable, ResultTable>chunk(10)
-				.reader(firstTableReader).processor(firstTableProcessor).writer(separatorWriter)
-				.build();
+				.reader(firstTableReader).processor(firstTableProcessor)
+				.writer(resultTableCsvWriter).build();
 	}
 
 	@Bean(name = "secondTableStep")
@@ -167,12 +166,6 @@ public class ResultTableConfig {
 			Step firstTableStep, Step secondTableStep) {
 		return jobBuilderFactory.get("resultTableJob").incrementer(new RunIdIncrementer())
 				.start(deleteCsvStep).next(firstTableStep).next(secondTableStep).build();
-	}
-
-	@Bean(name = "separatorWriter")
-	public ItemWriter<ResultTable> separatorWriter(
-			@Qualifier("resultTableCsvWriter") ItemWriter<ResultTable> resultTableCsvWriter) {
-		return new CustomSeparatorItemWriter(resultTableCsvWriter);
 	}
 
 	@Bean(name = "deleteCsvStep")
