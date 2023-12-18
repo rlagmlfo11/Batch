@@ -67,3 +67,60 @@ values ('WON',63,'man','WON@gmail.com',34);
 insert into PLAYER(name, age, gender, mail, wage)
 values ('KIM',21,'man','fin@gmail.com',26);
 
+insert into FIRSTTABLE(name, age, gender, mail, wage)
+values ('KIM',23,'woman','fin@gmail.com',926);
+
+insert into FIRSTTABLE(name, age, gender, mail, wage)
+values ('park',41,'woman','park@gmail.com',321);
+
+insert into FIRSTTABLE(name, age, gender, mail, wage)
+values ('son',55,'man','son@gmail.com',34);
+
+insert into FIRSTTABLE(name, age, gender, mail, wage)
+values ('SONG',71,'man','SONG@gmail.com',543);
+
+insert into FIRSTTABLE(name, age, gender, mail, wage)
+values ('sam',21,'woman','sam@gmail.com',33);
+
+insert into FIRSTTABLE(name, age, gender, mail, wage)
+values ('japan',26,'man','japan@gmail.com',26);
+
+insert into FIRSTTABLE(name, age, gender, mail, wage)
+values ('james',31,'man','james@gmail.com',23);
+
+insert into FIRSTTABLE(name, age, gender, mail, wage)
+values ('smith',28,'woman','smith@gmail.com',379);
+
+insert into FIRSTTABLE(name, age, gender, mail, wage)
+values ('black',77,'man','black@gmail.com',990);
+
+insert into FIRSTTABLE(name, age, gender, mail, wage)
+values ('jonson',45,'woman','jonson@gmail.com',23);
+
+insert into SECONDTABLE(givenName, old, sex, personalContact, wage, property)
+values ('paku',23,'woman','paku@gmail.com',23, 'car');
+
+insert into SECONDTABLE(givenName, old, sex, personalContact, wage, property)
+values ('yosimura',45,'man','yosimura@gmail.com',23, 'ship');
+
+insert into SECONDTABLE(givenName, old, sex, personalContact, wage, property)
+values ('tohei',89,'man','tohei@gmail.com',23, 'kkondae');
+
+insert into SECONDTABLE(givenName, old, sex, personalContact, wage, property)
+values ('ssibal',23,'man','ssibal@gmail.com',23, 'house');
+
+insert into SECONDTABLE(givenName, old, sex, personalContact, wage, property)
+values ('baegopa',67,'man','baegopa@gmail.com',23, 'food');
+
+insert into SECONDTABLE(givenName, old, sex, personalContact, wage, property)
+values ('mulgogi',67,'woman','mulgogi@gmail.com',23, 'car');
+
+insert into SECONDTABLE(givenName, old, sex, personalContact, wage, property)
+values ('koto',24,'woman','koto@gmail.com',23, 'me');
+
+insert into SECONDTABLE(givenName, old, sex, personalContact, wage, property)
+values ('jackson',55,'man','jackson@gmail.com',23, 'computer');
+
+insert into SECONDTABLE(givenName, old, sex, personalContact, wage, property)
+values ('asdfasdf',45,'woman','jonson@gmail.com',23, 'car');
+

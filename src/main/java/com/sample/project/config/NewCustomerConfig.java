@@ -2,6 +2,7 @@ package com.sample.project.config;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.Arrays;
 
 import javax.sql.DataSource;
 
@@ -14,17 +15,21 @@ import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
+import org.springframework.batch.item.data.RepositoryItemWriter;
 import org.springframework.batch.item.database.JdbcCursorItemReader;
 import org.springframework.batch.item.file.FlatFileHeaderCallback;
 import org.springframework.batch.item.file.FlatFileItemWriter;
 import org.springframework.batch.item.file.transform.BeanWrapperFieldExtractor;
 import org.springframework.batch.item.file.transform.DelimitedLineAggregator;
+import org.springframework.batch.item.support.CompositeItemWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.sample.project.dto.NewCustomerRepository;
 import com.sample.project.entity.Customer;
 import com.sample.project.entity.NewCustomer;
 
@@ -40,6 +45,9 @@ public class NewCustomerConfig {
 
 	@Autowired
 	public StepBuilderFactory stepBuilderFactory;
+
+	@Autowired
+	public NewCustomerRepository newCustomerRepository;
 
 	@Autowired
 	private DataSource dataSource;
@@ -74,7 +82,7 @@ public class NewCustomerConfig {
 	}
 
 	@Bean(name = "newCustomerWriter")
-	public FlatFileItemWriter<NewCustomer> newCustomerWriter() {
+	public FlatFileItemWriter<NewCustomer> newCustomerCsvWriter() {
 		FlatFileItemWriter<NewCustomer> writer = new FlatFileItemWriter<>();
 		writer.setResource(new FileSystemResource("src/main/resources/NewCustomer.csv"));
 
@@ -97,9 +105,28 @@ public class NewCustomerConfig {
 		return writer;
 	}
 
+	@Bean(name = "newCustomerJpaWriter")
+	public RepositoryItemWriter<NewCustomer> newCustomerJpaWriter(
+			NewCustomerRepository repository) {
+		RepositoryItemWriter<NewCustomer> writer = new RepositoryItemWriter<>();
+		writer.setRepository(repository);
+		writer.setMethodName("save");
+		return writer;
+	}
+
+	@Bean(name = "compositeNewCustomerWriter")
+	public CompositeItemWriter<NewCustomer> compositeNewCustomerWriter(
+			RepositoryItemWriter<NewCustomer> newCustomerJpaWriter,
+			FlatFileItemWriter<NewCustomer> newCustomerCsvWriter) {
+		CompositeItemWriter<NewCustomer> writer = new CompositeItemWriter<>();
+		writer.setDelegates(Arrays.asList(newCustomerJpaWriter, newCustomerCsvWriter));
+		return writer;
+	}
+
 	@Bean(name = "newCustomerStep")
 	public Step newCustomerStep(StepBuilderFactory stepBuilderFactory, ItemReader<Customer> reader,
-			ItemProcessor<Customer, NewCustomer> processor, ItemWriter<NewCustomer> writer) {
+			ItemProcessor<Customer, NewCustomer> processor,
+			CompositeItemWriter<NewCustomer> writer) {
 		return stepBuilderFactory.get("newCustomerStep").<Customer, NewCustomer>chunk(10)
 				.reader(reader).processor(processor).writer(writer).build();
 	}
