@@ -124,3 +124,8 @@ values ('jackson',55,'man','jackson@gmail.com',23, 'computer');
 insert into SECONDTABLE(givenName, old, sex, personalContact, wage, property)
 values ('asdfasdf',45,'woman','jonson@gmail.com',23, 'car');
 
+insert into kubun(kubun)
+values ('France');
+
+insert into kubun(kubun)
+values ('China');

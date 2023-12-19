@@ -3,6 +3,7 @@ package com.sample.project.config;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Arrays;
+import java.util.List;
 
 import javax.sql.DataSource;
 
@@ -26,6 +27,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -52,6 +54,9 @@ public class NewCustomerConfig {
 	@Autowired
 	private DataSource dataSource;
 
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
+
 	@Bean(name = "newCustomerReader")
 	public JdbcCursorItemReader<Customer> newCustomerReader() {
 		JdbcCursorItemReader<Customer> reader = new JdbcCursorItemReader<>();
@@ -67,8 +72,12 @@ public class NewCustomerConfig {
 		return new ItemProcessor<Customer, NewCustomer>() {
 			@Override
 			public NewCustomer process(Customer customer) throws Exception {
-				NewCustomer newCustomer = new NewCustomer();
-				if (customer.getCountry().equals("France")) {
+				List<String> kubunCountry = jdbcTemplate.queryForList("SELECT kubun FROM KUBUN",
+						String.class);
+				if (kubunCountry.contains(customer.getCountry())) {
+					return null;
+				} else {
+					NewCustomer newCustomer = new NewCustomer();
 					newCustomer.setBirthday(customer.getDob());
 					newCustomer.setEmail(customer.getEmail());
 					newCustomer.setFullName(customer.getFirstname() + " " + customer.getLastname());
@@ -76,7 +85,6 @@ public class NewCustomerConfig {
 					newCustomer.setPhoneNumber(customer.getContactNumber());
 					return newCustomer;
 				}
-				return null;
 			}
 		};
 	}
