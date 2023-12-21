@@ -104,13 +104,38 @@ public class ResultTableConfig {
 	public FlatFileItemWriter<ResultTable> resultTableCsvWriter() {
 		FlatFileItemWriter<ResultTable> writer = new FlatFileItemWriter<>();
 		writer.setResource(new FileSystemResource("src/main/resources/ResultTable.csv"));
-		writer.setAppendAllowed(true); // Ensure the file is overwritten each time
+		writer.setAppendAllowed(true);
 		writer.setHeaderCallback(new FlatFileHeaderCallback() {
 			@Override
 			public void writeHeader(Writer headerWriter) throws IOException {
 				headerWriter.write("NICKNAME,PROXYMAIL,性別,OKANE");
 			}
 		});
+		DelimitedLineAggregator<ResultTable> lineAggregator = new DelimitedLineAggregator<>();
+		lineAggregator.setDelimiter(",");
+
+		BeanWrapperFieldExtractor<ResultTable> fieldExtractor = new BeanWrapperFieldExtractor<>();
+		fieldExtractor.setNames(new String[] { "nickName", "proxyMail", "seibetu", "okane" });
+
+		lineAggregator.setFieldExtractor(fieldExtractor);
+		writer.setLineAggregator(lineAggregator);
+
+		return writer;
+	}
+
+	@Bean(name = "resultTableSecondCsvWriter")
+	public FlatFileItemWriter<ResultTable> resultTableSecondCsvWriter() {
+		FlatFileItemWriter<ResultTable> writer = new FlatFileItemWriter<>();
+		writer.setResource(
+				new FileSystemResource("src/main/resources/output/ResultSecondTable.csv"));
+		writer.setAppendAllowed(true);
+		writer.setHeaderCallback(new FlatFileHeaderCallback() {
+			@Override
+			public void writeHeader(Writer headerWriter) throws IOException {
+				headerWriter.write("NICKNAME,PROXYMAIL,性別,OKANE");
+			}
+		});
+
 		DelimitedLineAggregator<ResultTable> lineAggregator = new DelimitedLineAggregator<>();
 		lineAggregator.setDelimiter(",");
 
@@ -133,10 +158,12 @@ public class ResultTableConfig {
 
 	@Bean(name = "resultTableCompositeItemWriter")
 	public CompositeItemWriter<ResultTable> resultTableCompositeItemWriter(
-			FlatFileItemWriter<ResultTable> resultTableCsvWriter,
+			@Qualifier("resultTableCsvWriter") FlatFileItemWriter<ResultTable> resultTableCsvWriter,
+			@Qualifier("resultTableSecondCsvWriter") FlatFileItemWriter<ResultTable> resultTableSecondCsvWriter,
 			RepositoryItemWriter<ResultTable> resultTableDBwriter) {
 		CompositeItemWriter<ResultTable> writer = new CompositeItemWriter<>();
-		writer.setDelegates(Arrays.asList(resultTableCsvWriter, resultTableDBwriter));
+		writer.setDelegates(Arrays.asList(resultTableCsvWriter, resultTableSecondCsvWriter,
+				resultTableDBwriter));
 		return writer;
 	}
 
@@ -172,16 +199,20 @@ public class ResultTableConfig {
 	@Bean(name = "deleteCsvStep")
 	public Step deleteCsvStep() {
 		return stepBuilderFactory.get("deleteCsvStep").tasklet((contribution, chunkContext) -> {
-			FileSystemResource resource = new FileSystemResource(
-					"src/main/resources/ResultTable.csv");
-			if (resource.exists() && resource.isFile()) {
-				boolean deleted = resource.getFile().delete();
-				if (!deleted) {
-					throw new IOException("Could not delete file " + resource.getFilename());
-				}
-			}
+			deleteFile("src/main/resources/ResultTable.csv");
+			deleteFile("src/main/resources/output/ResultSecondTable.csv");
 			return RepeatStatus.FINISHED;
 		}).build();
+	}
+
+	private void deleteFile(String path) throws IOException {
+		FileSystemResource resource = new FileSystemResource(path);
+		if (resource.exists() && resource.isFile()) {
+			boolean deleted = resource.getFile().delete();
+			if (!deleted) {
+				throw new IOException("Could not delete file " + resource.getFilename());
+			}
+		}
 	}
 
 }
