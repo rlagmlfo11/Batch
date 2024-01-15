@@ -87,7 +87,9 @@ public class CustomerCSVtoDBconfig {
 	@Bean(name = "customerCSVStep")
 	public Step customerCSVStep(ItemWriter<Customer> writer) {
 		return stepBuilderFactory.get("customerCSVStep").<Customer, Customer>chunk(10)
-				.reader(reader1()).processor(processor1()).writer(writer).build();
+				.reader(reader1()).processor(processor1()).writer(writer)
+				.listener(new LogStepExecutionListener()) // Add the listener here
+				.build();
 	}
 
 	@Bean(name = "importCustomerJob")

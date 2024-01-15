@@ -129,6 +129,7 @@ public class ResultTableConfig {
 		writer.setResource(
 				new FileSystemResource("src/main/resources/output/ResultSecondTable.csv"));
 		writer.setAppendAllowed(true);
+		writer.setEncoding("SJIS");
 		writer.setHeaderCallback(new FlatFileHeaderCallback() {
 			@Override
 			public void writeHeader(Writer headerWriter) throws IOException {

@@ -93,7 +93,7 @@ public class NewCustomerConfig {
 	public FlatFileItemWriter<NewCustomer> newCustomerCsvWriter() {
 		FlatFileItemWriter<NewCustomer> writer = new FlatFileItemWriter<>();
 		writer.setResource(new FileSystemResource("src/main/resources/NewCustomer.csv"));
-
+		writer.setEncoding("SJIS");
 		writer.setHeaderCallback(new FlatFileHeaderCallback() {
 			@Override
 			public void writeHeader(Writer headerWriter) throws IOException {
