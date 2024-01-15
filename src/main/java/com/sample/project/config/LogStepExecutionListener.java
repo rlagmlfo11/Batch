@@ -9,11 +9,11 @@ import java.io.IOException;
 
 public class LogStepExecutionListener extends StepExecutionListenerSupport {
 
-	private String logFilePath = "src/main/resources/log.txt";
-
 	@Override
 	public ExitStatus afterStep(StepExecution stepExecution) {
 		if ("customerCSVStep".equals(stepExecution.getStepName())) {
+			String logFilePath = "src/main/resources/" + stepExecution.getStepName() + "Log.txt";
+
 			try (BufferedWriter writer = new BufferedWriter(new FileWriter(logFilePath, false))) {
 				writer.write("STEP_NAME: " + stepExecution.getStepName() + "\n");
 				writer.write("START_TIME: " + stepExecution.getStartTime() + "\n");
@@ -24,13 +24,12 @@ public class LogStepExecutionListener extends StepExecutionListenerSupport {
 						+ "\n");
 				writer.write("LAST_UPDATED: " + stepExecution.getLastUpdated() + "\n");
 				writer.newLine();
-
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 
-		// Return the step's exit status
 		return stepExecution.getExitStatus();
 	}
+
 }
